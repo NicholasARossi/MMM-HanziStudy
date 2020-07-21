@@ -11,7 +11,9 @@
 Module.register("HanziWriter", {
 
 	defaults: {
+//		hanzi_data_json: "https://raw.githubusercontent.com/NicholasARossi/MMM-HanziStudy/master/charecter_data/hsk3.json",
 		hanzi_data_json: "charecter_data/hsk3.json",
+
 		updateInterval: 30000,
 		remoteFile: null,
 		fadeSpeed: 4000,
@@ -23,14 +25,12 @@ Module.register("HanziWriter", {
 		mockDate: null
 	},
 
-	$.getJSON(hanzi_data_json, function(json) {
-		console.log(json); // this will show the info it in firebug console
-		var hanzi_data=json;
-	});
+
 
 	requiresVersion: "2.1.0", // Required version of MagicMirror
 
 	start: function() {
+
 		var self = this;
 		var dataRequest = null;
 		var dataNotification = null;
@@ -54,7 +54,7 @@ Module.register("HanziWriter", {
 	getData: function() {
 		var self = this;
 
-		var urlApi = "https://jsonplaceholder.typicode.com/posts/1";
+		var urlApi = this.config.hanzi_data_json;
 		var retry = true;
 
 		var dataRequest = new XMLHttpRequest();
@@ -103,6 +103,9 @@ Module.register("HanziWriter", {
 		var self = this;
 
 
+		const keys = Object.keys(this.dataRequest)
+		console.log(keys)
+		console.log(keys[0])
 		// create element wrapper for show into the module
 		var wrapper = document.createElement("div");
 		var sub_char=document.createElement("div");
