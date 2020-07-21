@@ -11,10 +11,22 @@
 Module.register("HanziWriter", {
 
 	defaults: {
-		updateInterval: 60000,
-		retryDelay: 5000
+		hanzi_data_json: "charecter_data/hsk3.json",
+		updateInterval: 30000,
+		remoteFile: null,
+		fadeSpeed: 4000,
+		morningStartTime: 3,
+		morningEndTime: 12,
+		afternoonStartTime: 12,
+		afternoonEndTime: 17,
+		random: true,
+		mockDate: null
 	},
 
+	$.getJSON(hanzi_data_json, function(json) {
+		console.log(json); // this will show the info it in firebug console
+		var hanzi_data=json;
+	});
 
 	requiresVersion: "2.1.0", // Required version of MagicMirror
 
