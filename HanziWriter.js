@@ -95,10 +95,13 @@ Module.register("HanziWriter", {
 		var wrapper = document.createElement("div");
 		var sub_char=document.createElement("div");
 		var hanzi_text=document.createElement("div");
+		var eng_text=document.createElement("div");
 
 		hanzi_text.className = "newsfeed-desc small light"
+		eng_text.className = "newsfeed-desc small light"
 
-		hanzi_text.innerHTML=this.translate('')
+		hanzi_text.innerHTML=this.translate('租房子当然是越便宜越好了')
+		eng_text.innerHTML=this.translate('If we rent, the cheaper the better.')
 
 		// If this.dataRequest is not empty
 //		if (this.dataRequest) {
@@ -124,7 +127,7 @@ Module.register("HanziWriter", {
 //
 //			wrapper.appendChild(wrapperDataNotification);
 //		}
-		var writer = HanziWriter.create(sub_char, '轮', {
+		var writer = HanziWriter.create(sub_char, '越', {
 		  width: 200,
 		  height: 200,
 		  padding: 5,
@@ -136,6 +139,8 @@ Module.register("HanziWriter", {
 		writer.loopCharacterAnimation();
 		wrapper.appendChild(sub_char);
 		wrapper.append(hanzi_text);
+		wrapper.append(eng_text);
+
 		return wrapper;
 	},
 
