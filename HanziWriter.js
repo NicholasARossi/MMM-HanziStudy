@@ -11,8 +11,7 @@
 Module.register("HanziWriter", {
 
 	defaults: {
-//		hanzi_data_json: "https://raw.githubusercontent.com/NicholasARossi/MMM-HanziStudy/master/charecter_data/hsk3.json",
-		hanzi_data_json: "charecter_data/hsk3.json",
+		hanzi_data_json: "https://raw.githubusercontent.com/NicholasARossi/MMM-HanziStudy/master/charecter_data/hsk3.json",
 
 		updateInterval: 30000,
 		remoteFile: null,
@@ -60,9 +59,7 @@ Module.register("HanziWriter", {
 		var dataRequest = new XMLHttpRequest();
 		dataRequest.open("GET", urlApi, true);
 		dataRequest.onreadystatechange = function() {
-			console.log(this.readyState);
 			if (this.readyState === 4) {
-				console.log(this.status);
 				if (this.status === 200) {
 					self.processData(JSON.parse(this.response));
 				} else if (this.status === 401) {
@@ -104,19 +101,30 @@ Module.register("HanziWriter", {
 
 
 		const keys = Object.keys(this.dataRequest)
-		console.log(keys)
-		console.log(keys[0])
+//		console.log(keys)
+		console.log(this.dataRequest.Simplified)
+		all_simplified_charecters= Object.values(this.dataRequest.Simplified)
+		const randIndex = Math.floor(Math.random() * all_simplified_charecters.length)
+//
+//
+		const simplified_char= this.dataRequest.Simplified[randIndex]
+		const ENG_def= this.dataRequest.ENG[randIndex]
+		const zh_sentance=this.dataRequest.zh_sentance_0[randIndex]
+		const eng_sentance=this.dataRequest.eng_sentance_0[randIndex]
+
+
+
 		// create element wrapper for show into the module
 		var wrapper = document.createElement("div");
-		var sub_char=document.createElement("div");
+//		var sub_char=document.createElement("div");
 		var hanzi_text=document.createElement("div");
 		var eng_text=document.createElement("div");
 
 		hanzi_text.className = "newsfeed-desc small light"
 		eng_text.className = "newsfeed-desc small light"
 
-		hanzi_text.innerHTML=this.translate('租房子当然是越便宜越好了')
-		eng_text.innerHTML=this.translate('If we rent, the cheaper the better.')
+		hanzi_text.innerHTML=this.translate(zh_sentance)
+		eng_text.innerHTML=this.translate(eng_sentance)
 
 		// If this.dataRequest is not empty
 //		if (this.dataRequest) {
@@ -142,17 +150,55 @@ Module.register("HanziWriter", {
 //
 //			wrapper.appendChild(wrapperDataNotification);
 //		}
-		var writer = HanziWriter.create(sub_char, '越', {
-		  width: 200,
-		  height: 200,
-		  padding: 5,
-		  strokeColor: '#FFFFFF',
-		  outlineColor :'#000',
-		  delayBetweenLoops: 3000
-		});
+		console.log(simplified_char.length)
 
-		writer.loopCharacterAnimation();
-		wrapper.appendChild(sub_char);
+		var toAdd = document.createDocumentFragment();
+
+
+		char_list=[];
+		function chainAnimations() {
+			  var delayBetweenAnimations = 1000; // milliseconds
+			  var i;
+
+			  for (i = 0; i < simplified_char.length; i++) {
+
+			  	   var new_char_div=document.createElement("div");
+			  	   new_char_div.id = 'r'+i;
+			  	   toAdd.appendChild(new_char_div);
+
+
+
+//				  this['hanzi'+i]=document.createElement("div");
+				  console.log(simplified_char[i])
+				  char_list[i]=HanziWriter.create(new_char_div, simplified_char[i], {
+							  width: 200,
+							  height: 200,
+							  padding: 5,
+							  strokeColor: '#FFFFFF',
+							  outlineColor :'#000',
+							  delayBetweenLoops: 3000
+							});
+				char_list[i].hideCharacter();
+
+			  }
+
+
+
+			  char_list[0].animateCharacter({onComplete: function() {setTimeout(function() {char_list[1].animateCharacter();}, delayBetweenAnimations);}});
+			}
+
+		chainAnimations();
+
+//		var writer = HanziWriter.create(sub_char, simplified_char, {
+//		  width: 200,
+//		  height: 200,
+//		  padding: 5,
+//		  strokeColor: '#FFFFFF',
+//		  outlineColor :'#000',
+//		  delayBetweenLoops: 3000
+//		});
+
+		wrapper.appendChild(toAdd);
 		wrapper.append(hanzi_text);
 		wrapper.append(eng_text);
 
