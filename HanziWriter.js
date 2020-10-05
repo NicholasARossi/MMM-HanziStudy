@@ -100,10 +100,12 @@ Module.register("HanziWriter", {
 		var self = this;
 
 
-		const keys = Object.keys(this.dataRequest)
+//		const keys = Object.keys(this.dataRequest)
 //		console.log(keys)
-		console.log(this.dataRequest.Simplified)
-		all_simplified_charecters= Object.values(this.dataRequest.Simplified)
+//		console.log(this.dataRequest.Simplified)
+		const charecter_dict=this.dataRequest.Simplified
+		all_simplified_charecters=Object.values(charecter_dict)
+
 		const randIndex = Math.floor(Math.random() * all_simplified_charecters.length)
 //
 //
@@ -126,42 +128,18 @@ Module.register("HanziWriter", {
 		hanzi_text.innerHTML=this.translate(zh_sentance)
 		eng_text.innerHTML=this.translate(eng_sentance)
 
-		// If this.dataRequest is not empty
-//		if (this.dataRequest) {
-//			var wrapperDataRequest = document.createElement("div");
-//			// check format https://jsonplaceholder.typicode.com/posts/1
-//			wrapperDataRequest.innerHTML = this.dataRequest.title;
-//
-//			var labelDataRequest = document.createElement("label");
-//			// Use translate function
-//			//             this id defined in translations files
-//			labelDataRequest.innerHTML = this.translate("TITLE");
-//
-//
-//			wrapper.appendChild(labelDataRequest);
-//			wrapper.appendChild(wrapperDataRequest);
-//		}
-//
-//		// Data from helper
-//		if (this.dataNotification) {
-//			var wrapperDataNotification = document.createElement("div");
-//			// translations  + datanotification
-//			wrapperDataNotification.innerHTML =  this.translate("UPDATE") + ": " + this.dataNotification.date;
-//
-//			wrapper.appendChild(wrapperDataNotification);
-//		}
-		console.log(simplified_char.length)
 
-		var toAdd = document.createDocumentFragment();
+
+		var toAdd = document.createDocumentFragment(id="child_container");
 
 
 		char_list=[];
 		function chainAnimations() {
-			  var delayBetweenAnimations = 1000; // milliseconds
+			  var delayBetweenAnimations = 500; // milliseconds
 			  var i;
 
 			  for (i = 0; i < simplified_char.length; i++) {
-
+				   console.log(i)
 			  	   var new_char_div=document.createElement("div");
 			  	   new_char_div.id = 'r'+i;
 			  	   toAdd.appendChild(new_char_div);
@@ -176,7 +154,8 @@ Module.register("HanziWriter", {
 							  padding: 5,
 							  strokeColor: '#FFFFFF',
 							  outlineColor :'#000',
-							  delayBetweenLoops: 3000
+							  delayBetweenStrokes: 0
+//							  delayBetweenLoops: 1000
 							});
 				char_list[i].hideCharacter();
 

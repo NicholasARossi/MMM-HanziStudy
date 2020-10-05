@@ -8,3 +8,7 @@
  * Custom here your css module
  *
  */
+#container, #child_container, .child {
+    position: relative;
+    float: left;
+}
